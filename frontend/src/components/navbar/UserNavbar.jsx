@@ -11,7 +11,7 @@ const UserNavbar = () => {
     }, [checkAuth]);
 
     const handleLogout = () => {
-        Logout(); // Ensure Logout() is defined elsewhere in your code
+        Logout(); 
         navigate('/user');
     };
 

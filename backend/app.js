@@ -1,0 +1,75 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const session = require('express-session');
+const MongoDBStore = require("connect-mongo");
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const User = require('./models/user'); 
+
+const Userroutes=require('./routes/userroutes');
+const Technicianroutes=require('./routes/technicianroutes');
+const Adminroutes=require('./routes/adminroutes');
+const Errorformroutes=require('./routes/errorformroutes');
+const Middlewareroutes=require('./middleware');
+const dotenv = require('dotenv');
+
+mongoose.connect('mongodb://localhost:27017/erpdevelopment', {});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
+dotenv.config();
+const app = express();
+app.use(express.json());
+app.use(bodyParser.json());
+const PORT = process.env.PORT || 5000;
+const store = MongoDBStore.create({
+    mongoUrl: 'mongodb://localhost:27017/erpdevelopment',
+    collectionName: 'sessions',
+});
+
+const sessionConfig = {
+    name: "session",
+    secret: "thisshouldbeabettersecret!",
+    resave: false,
+    saveUninitialized: false, 
+    store: store,
+    cookie: {
+      httpOnly: true,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7, 
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+};
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
+
+app.use('/user',Userroutes);
+app.use('/technician',Technicianroutes)
+app.use('/admin',Adminroutes);
+app.use('/errorform',Errorformroutes);
+app.use('/',Middlewareroutes);
+
+app.listen(PORT, () => {
+    console.log('Server running on port 5000');
+});

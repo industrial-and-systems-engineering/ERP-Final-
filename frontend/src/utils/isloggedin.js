@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export const useAuthStore = create((set) => ({
-  isAuthenticated: true,
+  isAuthenticated: false,
   checkAuth: async () => {
     try {
       const response = await fetch('/isloggedin', { credentials: 'include' });
@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
       set({ isAuthenticated: data.isAuthenticated });
     } catch (error) {
       console.error('Error checking authentication:', error);
-      set({ isAuthenticated: true });
+      set({ isAuthenticated: false });
     }
   }
 }));
