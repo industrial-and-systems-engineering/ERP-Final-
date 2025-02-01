@@ -64,12 +64,12 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/user',Userroutes);
-app.use('/technician',Technicianroutes)
-app.use('/admin',Adminroutes);
-app.use('/errorform',Errorformroutes);
-app.use('/',Middlewareroutes);
+app.use('/api/user',Userroutes);
+app.use('/api/technician',Technicianroutes)
+app.use('/api/admin',Adminroutes);
+app.use('/api/errorform',Errorformroutes);
+app.use('/api',Middlewareroutes);
 
-app.listen(PORT, () => {
+app.listen(5000, () => {
     console.log('Server running on port 5000');
 });

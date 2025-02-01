@@ -10,7 +10,7 @@ router.post('/login', (req, res, next) => {
         
         req.logIn(user, (err) => { 
             if (err) return res.status(500).json({ message: "Internal server error" });
-            res.status(200).json({ message: "User login successful", redirectUrl: "/" });
+            res.status(200).json({ message: "User login successful", redirectUrl: "/user" });
         });
     })(req, res, next);
 });
@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
             if (err) return res.status(500).json({ message: 'Login error after registration' });
             res.status(201).json({
                 message: 'User registered successfully',
-                redirectUrl: '/' 
+                redirectUrl: '/user' 
             });
         });
     } catch (error) {

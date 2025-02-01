@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
 
         return res.status(201).json({
             message: "Form submitted successfully",
-            redirectURL: "/form", 
+            redirectURL: "/user", 
         });
 
     } catch (error) {
@@ -46,36 +46,38 @@ router.post("/", async (req, res) => {
 
 
 router.get("/calibrated", async (req, res) => {
-    try {
+  try {
+    const errorForms = await ErrorDetector.find().populate("products");
+    
+    
+    const calibratedForms = errorForms.map(form => ({
+      ...form.toObject(),
+      products: form.products.filter(product => product.isCalibrated)
+    })).filter(form => form.products.length > 0);  
+    
+    res.status(200).json(calibratedForms);
+  } catch (error) {
+    console.error("Error fetching calibrated error forms:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
+
+  router.get("/calibrated/pending", async (req, res) => {
+    try {
       const errorForms = await ErrorDetector.find().populate("products");
-      const calibratedForms = errorForms.filter((form) =>
-        form.products.some((product) => product.isCalibrated)
-      );
       
-      res.status(200).json(calibratedForms);
+      
+      const pendingForms = errorForms.map(form => ({
+        ...form.toObject(),
+        products: form.products.filter(product => (!product.isCalibrated))
+      })).filter(form => form.products.length > 0);  
+      
+      res.status(200).json(pendingForms);
     } catch (error) {
       console.error("Error fetching calibrated error forms:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  });
-
-
-  router.get("/calibrated/pending", async (req, res) => {
-      try {
-        // Fetch all error forms and populate products
-        const errorForms = await ErrorDetector.find().populate("products");
-    
-        // Filter forms where at least one product is NOT calibrated
-        const pendingForms = errorForms.filter((form) =>
-          form.products.some((product) => !product.isCalibrated)
-        );
-        
-        res.status(200).json(pendingForms);
-      } catch (error) {
-        console.error("Error fetching pending error forms:", error);
-        res.status(500).json({ message: "Internal server error" });
-      }
     });
 
 

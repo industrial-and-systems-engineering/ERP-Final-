@@ -8,7 +8,7 @@ router.get('/isloggedin', (req, res) => {
         return res.status(200).json({ isLoggedIn: true, username: req.user.username });
     } else {
         req.flash('error', 'You must be signed in first');
-        return res.status(401).json({ message: 'Not authenticated', redirectUrl: '/signin', error: req.flash('error') });
+        return res.status(401).json({ message: 'Not authenticated', redirectUrl: '/user', error: req.flash('error') });
     }
 });
 

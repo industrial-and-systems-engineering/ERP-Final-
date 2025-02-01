@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../utils/isloggedin';
 import UserNavbar from '../../components/navbar/UserNavbar.jsx';
@@ -6,25 +6,29 @@ import UserNavbar from '../../components/navbar/UserNavbar.jsx';
 const Ucompleted = () => {
   const [calibratedForms, setCalibratedForms] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
   const { isAuthenticated, checkAuth } = useAuthStore();
-  const hasCheckedAuth = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkAuth();
+    const verifyAuth = async () => {
+      await checkAuth();
+      setIsLoading(false); // Set loading to false after authentication check
+    };
+
+    verifyAuth();
   }, [checkAuth]);
 
   useEffect(() => {
+    if (isLoading) return; 
 
-    if (hasCheckedAuth.current) return; 
-    hasCheckedAuth.current = true;
     if (!isAuthenticated) {
       alert('You are not authenticated. Please log in.');
       navigate('/user');
     } else {
       const fetchCalibratedForms = async () => {
         try {
-          const response = await fetch('/errorform/calibrated');
+          const response = await fetch('/api/errorform/calibrated');
           if (!response.ok) {
             throw new Error('Failed to fetch data');
           }
@@ -37,33 +41,50 @@ const Ucompleted = () => {
 
       fetchCalibratedForms();
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, isLoading]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Show a loading indicator while checking auth
+  }
+  const toggleProductDetails = (product) => {
+    setSelectedProduct((prevProduct) => (prevProduct && prevProduct._id === product._id ? null : product));
+  };
 
   return (
-    <div>
-        <UserNavbar />
-      <h1>Completed Products</h1>
-      {calibratedForms.length === 0 ? (
-        <p className="text-gray-500 text-center">No calibrated products found.</p>
-      ) : (
-        <div>
-          {calibratedForms.map((product) => (
-            <div key={product.id} onClick={() => setSelectedProduct(product)}>
-              <p>{product.instrumentDescription}</p>
-            </div>
-          ))}
-          {selectedProduct && (
-            <div className="mt-4 p-4 border rounded-lg shadow-md bg-gray-100">
-              <h2 className="text-lg font-bold">Product Details</h2>
-              <p><strong>Job No:</strong> {selectedProduct.jobNo}</p>
-              <p><strong>Description:</strong> {selectedProduct.instrumentDescription}</p>
-              <p><strong>Serial No:</strong> {selectedProduct.serialNo}</p>
-              <p><strong>Parameter:</strong> {selectedProduct.parameter}</p>
-              <p><strong>Ranges:</strong> {selectedProduct.ranges}</p>
-              <p><strong>Accuracy:</strong> {selectedProduct.accuracy}</p>
-              <p><strong>Calibrated:</strong> {selectedProduct.isCalibrated ? "Yes" : "No"}</p>
-            </div>
+    <div className="p-6 max-w-xl mx-auto space-y-4">
+      <UserNavbar />
+      <h1 className="text-2xl font-bold text-center">Completed Products</h1>
+
+      {/* Show product buttons if data exists */}
+      {calibratedForms.length > 0 ? (
+        <div className="space-y-2">
+          {calibratedForms.map((form, formIndex) =>
+            form.products.map((product, productIndex) => (
+              <button
+                key={product._id}
+                className="bg-blue-500 text-white p-3 w-full rounded-lg hover:bg-blue-700"
+                onClick={() => toggleProductDetails(product)}
+              >
+                Product {formIndex + 1}-{productIndex + 1}
+              </button>
+            ))
           )}
+        </div>
+      ) : (
+        <p className="text-gray-500 text-center">No calibrated products found.</p>
+      )}
+
+      {/* Show selected product details */}
+      {selectedProduct && (
+        <div className="mt-4 p-4 border rounded-lg shadow-md bg-gray-100">
+          <h2 className="text-lg font-bold">Product Details</h2>
+          <p><strong>Job No:</strong> {selectedProduct.jobNo}</p>
+          <p><strong>Description:</strong> {selectedProduct.instrumentDescription}</p>
+          <p><strong>Serial No:</strong> {selectedProduct.serialNo}</p>
+          <p><strong>Parameter:</strong> {selectedProduct.parameter}</p>
+          <p><strong>Ranges:</strong> {selectedProduct.ranges}</p>
+          <p><strong>Accuracy:</strong> {selectedProduct.accuracy}</p>
+          <p><strong>Calibrated:</strong> {selectedProduct.isCalibrated ? "Yes" : "No"}</p>
         </div>
       )}
     </div>
