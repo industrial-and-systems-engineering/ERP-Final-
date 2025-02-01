@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
       set({ isAuthenticated: data.isAuthenticated });
     } catch (error) {
       console.error('Error checking authentication:', error);
-      set({ isAuthenticated: true });
+      set({ isAuthenticated: false });
     }
   }
 }));
