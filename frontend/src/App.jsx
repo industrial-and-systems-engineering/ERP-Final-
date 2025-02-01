@@ -8,16 +8,21 @@ import Thomepage from './pages/technician/Thomepage.jsx'
 import Tupdate from './pages/technician/Tupdate.jsx'
 import Tpending from './pages/technician/Tpending.jsx'
 import Upending from './pages/user/Upending.jsx'
+import Usignup from './pages/user/Usignup.jsx'
 
 const App = () => {
   return (
     <div>
       <Routes>
         <Route path="*" element={<Loginpage />} />
-        <Route path="/user" element={<Uhomepage />}>
+        <Route path="/user" >
+        <Route path="" element={<Uhomepage />} />
           <Route path="completed" element={<Ucompleted />} />
           <Route path="pending" element={<Upending />} />
           <Route path="create" element={<Ucreate />} />
+          <Route path="signup" element={<Usignup />} />
+  
+
         </Route>
         <Route path="/technician" element={<Thomepage />}>
           <Route path="completed" element={<Tpending />} />
