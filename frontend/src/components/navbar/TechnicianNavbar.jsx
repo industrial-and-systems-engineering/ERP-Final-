@@ -6,7 +6,22 @@ const navigation = [
   { name: 'Pending', href: '#' },
   { name: 'Completed', href: '#' },
 ]
-const TechnicianNavbar = () => {
+
+const TechnicianNavbar =  ({ setFormData, setIsAuthenticated }) => {
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/technician/logout");
+      if (response.ok) {
+        setIsAuthenticated(false);
+        setFormData({ username: "", email: "", password: "" });
+        navigate("/technician");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+  
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -41,7 +56,12 @@ const TechnicianNavbar = () => {
 
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Button as={Link} to="/technician" className="text-sm/6 font-semibold text-gray-900 p-2">
+            <Button 
+              as={Link} 
+              to="/technician" 
+              onClick={handleLogout} 
+              className="text-sm/6 font-semibold text-gray-900 p-2"
+            >
               Log out
             </Button>
           </div>

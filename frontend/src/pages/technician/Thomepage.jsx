@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import TechnicianNavbar from "../../components/navbar/TechnicianNavbar";
 
@@ -9,9 +9,26 @@ const Thomepage = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/technician/check-auth', {
+          credentials: 'include'
+        });
+        if (response.ok) {
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,12 +36,13 @@ const Thomepage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Reset error message
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/technician/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
@@ -59,19 +77,30 @@ const Thomepage = () => {
       </div>
 
       {/* Navbar */}
-      {isAuthenticated && <TechnicianNavbar />}
+      {isAuthenticated && (
+        <TechnicianNavbar
+          setFormData={setFormData}
+          setIsAuthenticated={setIsAuthenticated}
+        />
+      )}
 
-      {/* Login Form */}
+      {/* Login Form or Nested Routes */}
       {!isAuthenticated ? (
         <div className="flex flex-col items-center justify-center w-full">
           <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">Technician Login</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+              Technician Login
+            </h2>
 
-            {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+            {errorMessage && (
+              <p className="text-red-500 text-center">{errorMessage}</p>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Username</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
                 <input
                   type="text"
                   name="username"
@@ -83,7 +112,9 @@ const Thomepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -95,7 +126,9 @@ const Thomepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
                 <input
                   type="password"
                   name="password"
