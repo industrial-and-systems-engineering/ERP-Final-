@@ -1,16 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-
-const Tcompleted = () => {
-    return (
-        <div>
-            <h1>Completed</h1>
-        </div>
-    )
-}
-
-export default Tcompleted
-=======
 import { useEffect } from 'react';
 import Tcard from '../../components/EquipmentCard/Tcard';
 import { useCalibratedEquipmentsStore } from '../../utils/calibratedEquipments';
@@ -38,4 +26,3 @@ const Tpending = () => {
 }
 
 export default Tpending;
->>>>>>> b707e38 (initial commit)

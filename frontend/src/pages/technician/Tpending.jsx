@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-const Tpending = () => {
-    return (
-        <div>
-            <h1>Technician Pending</h1>
-        </div>
-    )
-}
-
-export default Tpending
-=======
 // import React from 'react'
 
 // const Tpending = () => {
@@ -55,4 +42,3 @@ const Tpending = () => {
 }
 
 export default Tpending;
->>>>>>> b707e38 (initial commit)
