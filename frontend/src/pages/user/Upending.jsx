@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../utils/isloggedin';
 import UserNavbar from '../../components/navbar/UserNavbar.jsx';
@@ -21,9 +20,8 @@ const Upending = () => {
   }, [checkAuth]);
 
   useEffect(() => {
+    if (isLoading) return;
 
-    if (hasCheckedAuth.current) return;
-    hasCheckedAuth.current = true;
     if (!isAuthenticated) {
       alert('You are not authenticated. Please log in.');
       navigate('/user');
