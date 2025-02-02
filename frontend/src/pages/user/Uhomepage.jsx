@@ -9,11 +9,19 @@ const Uhomepage = () => {
     email: "",
     password: "",
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> b707e38 (initial commit)
   const { isAuthenticated, checkAuth } = useAuthStore();
   const navigate = useNavigate();
 
   useEffect(() => {
+<<<<<<< HEAD
     checkAuth(); 
+=======
+    checkAuth();
+>>>>>>> b707e38 (initial commit)
   }, [checkAuth]);
 
   const handleChange = (e) => {
@@ -23,7 +31,11 @@ const Uhomepage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       const response = await fetch("/user/login", {
+=======
+      const response = await fetch("/api/user/login", {
+>>>>>>> b707e38 (initial commit)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -43,7 +55,12 @@ const Uhomepage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-cyan-300 to-orange-600 text-gray-800">
+<<<<<<< HEAD
       <UserNavbar />
+=======
+      {/* Pass setFormData as a prop */}
+      <UserNavbar setFormData={setFormData} />
+>>>>>>> b707e38 (initial commit)
       <h1 className="text-2xl text-red-600 text-center my-4">User Homepage</h1>
       {isAuthenticated ? (
         <Outlet />
@@ -108,4 +125,8 @@ const Uhomepage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Uhomepage;
+=======
+export default Uhomepage;
+>>>>>>> b707e38 (initial commit)

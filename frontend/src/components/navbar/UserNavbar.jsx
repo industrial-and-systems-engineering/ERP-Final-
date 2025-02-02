@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../utils/isloggedin.js';
 
+<<<<<<< HEAD
 const UserNavbar = () => {
+=======
+const UserNavbar = ({ setFormData }) => {
+>>>>>>> b707e38 (initial commit)
     const { isAuthenticated, checkAuth } = useAuthStore();
     const navigate = useNavigate();
 
@@ -10,9 +14,24 @@ const UserNavbar = () => {
         checkAuth();
     }, [checkAuth]);
 
+<<<<<<< HEAD
     const handleLogout = () => {
         Logout(); // Ensure Logout() is defined elsewhere in your code
         navigate('/user');
+=======
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/user/logout", { method: "GET" });
+            checkAuth(false); // Update login state
+            
+            // Reset form data on logout
+            setFormData({ username: "", email: "", password: "" });
+
+            navigate("/user"); // Redirect to home after logout
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+>>>>>>> b707e38 (initial commit)
     };
 
     return (
@@ -53,4 +72,8 @@ const UserNavbar = () => {
     );
 };
 
+<<<<<<< HEAD
 export default UserNavbar;
+=======
+export default UserNavbar;
+>>>>>>> b707e38 (initial commit)

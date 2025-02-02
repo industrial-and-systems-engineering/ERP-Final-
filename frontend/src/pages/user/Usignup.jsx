@@ -18,7 +18,11 @@ function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       const response = await fetch("/user/register", {
+=======
+      const response = await fetch("/api/user/register", {
+>>>>>>> b707e38 (initial commit)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -17,12 +17,20 @@ const App = () => {
       <Routes>
         <Route path="*" element={<Loginpage />} />
         <Route path="/user" >
+<<<<<<< HEAD
           <Route path="" element={<Uhomepage />} />
+=======
+        <Route path="" element={<Uhomepage />} />
+>>>>>>> b707e38 (initial commit)
           <Route path="completed" element={<Ucompleted />} />
           <Route path="pending" element={<Upending />} />
           <Route path="create" element={<Ucreate />} />
           <Route path="signup" element={<Usignup />} />
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> b707e38 (initial commit)
 
         </Route>
         <Route path="/technician" element={<Thomepage />}>
