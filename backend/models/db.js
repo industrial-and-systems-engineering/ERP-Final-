@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const User = require('./user'); 
+
 
 const ProductSchema = new Schema({
   jobNo: { type: String, required: true },
@@ -25,6 +27,7 @@ const ErrorDetectorSchema = new Schema(
     telephoneNumber: { type: String },
     emailId: { type: String, required: true },
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
     decisionRules: {
       noDecision: { type: Boolean, default: false },
       simpleConformative: { type: Boolean, default: false },

@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
        
         const productDocs = await Product.insertMany(req.body.products);
 
-        
+        const userId = req.user.id;
         const newForm = new ErrorDetector({
             srfNo: req.body.srfNo,
             date: req.body.date,
@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
             telephoneNumber: req.body.telephoneNumber,
             emailId: req.body.emailId,
             products: productDocs.map((p) => p._id),
+            user:userId,
             decisionRules: req.body.decisionRules || {} 
         });
 
@@ -47,7 +48,8 @@ router.post("/", async (req, res) => {
 
 router.get("/calibrated", async (req, res) => {
   try {
-    const errorForms = await ErrorDetector.find().populate("products");
+    const userId = req.user.id;
+      const errorForms = await ErrorDetector.find({ user: userId }).populate("products");
     
     
     const calibratedForms = errorForms.map(form => ({
@@ -65,7 +67,9 @@ router.get("/calibrated", async (req, res) => {
 
   router.get("/calibrated/pending", async (req, res) => {
     try {
-      const errorForms = await ErrorDetector.find().populate("products");
+
+      const userId = req.user.id;
+      const errorForms = await ErrorDetector.find({ user: userId }).populate("products");
       
       
       const pendingForms = errorForms.map(form => ({

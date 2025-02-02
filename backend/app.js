@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const User = require('./models/user'); 
 
 const Userroutes=require('./routes/userroutes');
-const Technicianroutes=require('./routes/technicianroutes');
+const Technicianroutes=require('./routes/technicianroutes.js');
 const Adminroutes=require('./routes/adminroutes');
 const Errorformroutes=require('./routes/errorformroutes');
 const Middlewareroutes=require('./middleware');
