@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TechnicianNavbar from "../../components/navbar/TechnicianNavbar";
 
 const Thomepage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -14,21 +14,21 @@ const Thomepage = () => {
   const navigate = useNavigate();
 
   // Check authentication status on component mount
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/technician/check-auth', {
-          credentials: 'include'
-        });
-        if (response.ok) {
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      }
-    };
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const response = await fetch('/api/technician/check-auth', {
+  //         credentials: 'include'
+  //       });
+  //       if (response.ok) {
+  //         setIsAuthenticated(true);
+  //       }
+  //     } catch (error) {
+  //       console.error('Auth check failed:', error);
+  //     }
+  //   };
+  //   checkAuth();
+  // }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
