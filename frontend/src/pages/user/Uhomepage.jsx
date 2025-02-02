@@ -9,6 +9,7 @@ const Uhomepage = () => {
     email: "",
     password: "",
   });
+
   const { isAuthenticated, checkAuth } = useAuthStore();
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ const Uhomepage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/user/login", {
+      const response = await fetch("/api/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -43,7 +44,8 @@ const Uhomepage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-cyan-300 to-orange-600 text-gray-800">
-      <UserNavbar />
+      {/* Pass setFormData as a prop */}
+      <UserNavbar setFormData={setFormData} />
       <h1 className="text-2xl text-red-600 text-center my-4">User Homepage</h1>
       {isAuthenticated ? (
         <Outlet />

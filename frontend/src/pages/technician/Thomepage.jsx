@@ -1,6 +1,6 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import TechnicianNavbar from '../../components/navbar/TechnicianNavbar'
+import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import TechnicianNavbar from "../../components/navbar/TechnicianNavbar";
 
 const Thomepage = () => {
   return (
