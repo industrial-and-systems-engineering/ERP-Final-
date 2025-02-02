@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TechnicianNavbar from "../../components/navbar/TechnicianNavbar";
 
 const Thomepage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
     email: "",

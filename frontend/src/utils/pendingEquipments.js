@@ -8,29 +8,35 @@ export const usePendingEquipmentsStore = create((set) => ({
     fetchPendingEquipments: async () => {
         const response = await fetch('/api/technician/pending-equipments');
         const equipments = await response.json();
-        set((state) => ({ pendingEquipments: [...equipments.data] }));
+        set({ pendingEquipments: equipments.data });
     },
 
     updateEquipment: async (id, details) => {
-        const responseCalibrated = await fetch('/api/technician/calibrated-equipments', {
-            method: 'POST',
+        const response = await fetch(`/api/technician/update-equipment/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(updatedEquipment),
+            body: JSON.stringify(details),
         });
-        const newCalibratedEquipment = await responseCalibrated.json();
 
-        const { setCalibratedEquipments } = useCalibratedEquipmentsStore.getState();
-        setCalibratedEquipments((state) => [...state.calibratedEquipments, newCalibratedEquipment]);
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message || "Failed to update" };
+        }
 
-        set((state) => ({
-            pendingEquipments: state.pendingEquipments.map((equipment) => {
-                if (equipment.id === id) {
-                    return updatedEquipment;
-                }
-                return equipment;
-            }),
-        }));
+        const data = await response.json();
+        const updatedEquipment = data.data;
+
+        set((state) => {
+            const { calibratedEquipments, setCalibratedEquipments } = useCalibratedEquipmentsStore.getState();
+            setCalibratedEquipments([...calibratedEquipments, updatedEquipment]);
+
+            return {
+                pendingEquipments: state.pendingEquipments.filter((equipment) => equipment._id !== id),
+            };
+        });
+
+        return { success: true, message: "Equipment updated successfully" };
     },
 }));
