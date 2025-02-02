@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TechnicianNavbar from "../../components/navbar/TechnicianNavbar";
 
 const Thomepage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,7 +17,7 @@ const Thomepage = () => {
   useEffect(() => {
     const checkAuth = async () => {
       // Update your useEffect checkAuth to:
-const checkAuth = async () => {
+
   try {
     const response = await fetch('/api/technician/check-auth', {
       credentials: 'include'
@@ -31,7 +31,6 @@ const checkAuth = async () => {
     setIsAuthenticated(false);
   }
 };
-    };
     checkAuth();
   }, []);
 
