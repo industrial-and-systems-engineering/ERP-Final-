@@ -18,11 +18,7 @@ function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-<<<<<<< HEAD
       const response = await fetch("/user/register", {
-=======
-      const response = await fetch("/api/user/register", {
->>>>>>> b707e38 (initial commit)
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -30,7 +26,7 @@ function SignupPage() {
 
       const data = await response.json();
       if (response.ok) {
-        navigate("/"); 
+        navigate("/");
       } else {
         alert(`Error: ${data.message}`);
       }
@@ -83,8 +79,8 @@ function SignupPage() {
                 className="w-full p-2 mt-1 border border-gray-300 rounded focus:border-pink-400 focus:ring focus:ring-pink-200"
               />
             </label>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full p-3 bg-pink-400 text-white rounded-lg hover:bg-pink-500 transition duration-300">
               Sign Up
             </button>

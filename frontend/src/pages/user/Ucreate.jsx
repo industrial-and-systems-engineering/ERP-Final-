@@ -7,11 +7,6 @@ const ErrorDetectorForm = () => {
   const navigate = useNavigate();
   const { isAuthenticated, checkAuth } = useAuthStore();
   const hasCheckedAuth = useRef(false);
-<<<<<<< HEAD
-=======
-  const [authChecked, setAuthChecked] = useState(false);
-
->>>>>>> b707e38 (initial commit)
   const [formData, setFormData] = useState({
     srfNo: "",
     date: "",
@@ -45,7 +40,6 @@ const ErrorDetectorForm = () => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     checkAuth();
   }, [checkAuth]);
 
@@ -64,78 +58,6 @@ const ErrorDetectorForm = () => {
     console.log("Submitting form data:", JSON.stringify(requestData, null, 2));
   };
 
-=======
-    const verifyAuth = async () => {
-      await checkAuth();
-      setAuthChecked(true);
-    };
-
-    if (!hasCheckedAuth.current) {
-      verifyAuth();
-      hasCheckedAuth.current = true;
-    }
-  }, [checkAuth]);
-
-  useEffect(() => {
-    if (authChecked && !isAuthenticated) {
-      alert("You are not authenticated. Please log in.");
-      navigate("/user");
-    }
-  }, [authChecked, isAuthenticated, navigate]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const requestData = { ...formData, products: tableRows };
-  
-    console.log("Submitting form data:", JSON.stringify(requestData, null, 2));
-  
-    fetch("/api/errorform", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestData),
-    })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log("Response from backend:", data);
-  
-      // Reset form state
-      setFormData({
-        srfNo: "",
-        date: "",
-        probableDate: "",
-        organization: "",
-        address: "",
-        contactPerson: "",
-        mobileNumber: "",
-        telephoneNumber: "",
-        emailId: "",
-      });
-  
-      setTableRows([{ ...emptyRow }]);
-  
-      if (data.redirectURL) {
-        navigate(data.redirectURL);
-      } else {
-        alert("Form submitted successfully!");
-      }
-    })
-    .catch((err) => {
-      console.error("Error submitting form:", err);
-      alert("Error submitting form. Please try again.");
-    });
-  };
-
-  if (!authChecked) {
-    return <div className="text-center p-8">Verifying authentication...</div>;
-  }
-
->>>>>>> b707e38 (initial commit)
   if (!isAuthenticated) return null;
 
   return (
@@ -234,8 +156,4 @@ const ErrorDetectorForm = () => {
   );
 };
 
-<<<<<<< HEAD
 export default ErrorDetectorForm;
-=======
-export default ErrorDetectorForm;
->>>>>>> b707e38 (initial commit)
