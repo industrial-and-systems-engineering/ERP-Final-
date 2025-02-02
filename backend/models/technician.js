@@ -8,7 +8,11 @@ const TechnicianSchema=new Schema({
         type:String,
         required:true,
         unique:true
-    }
+    },
+    userType: {
+        type: String,
+        default: 'technician'
+      }
 });
 
 TechnicianSchema.plugin(passportLocalMongoose);

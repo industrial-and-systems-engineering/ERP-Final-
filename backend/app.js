@@ -1,4 +1,8 @@
 const express = require('express');
+
+// Add at the top of your app.js
+const cors = require('cors');
+
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -7,6 +11,7 @@ const MongoDBStore = require("connect-mongo");
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const User = require('./models/user'); 
+const Technician = require('./models/technician'); 
 
 const Userroutes=require('./routes/userroutes');
 const Technicianroutes=require('./routes/technicianroutes.js');
@@ -31,16 +36,22 @@ const store = MongoDBStore.create({
     mongoUrl: 'mongodb://localhost:27017/erpdevelopment',
     collectionName: 'sessions',
 });
+app.use(cors({
+    origin: 'http://localhost:5173', // Update with your frontend URL
+    credentials: true
+  }));
 
-const sessionConfig = {
+  const sessionConfig = {
     name: "session",
     secret: "thisshouldbeabettersecret!",
     resave: false,
-    saveUninitialized: false, 
+    saveUninitialized: false,
     store: store,
     cookie: {
       httpOnly: true,
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7, 
+      secure: false, // Set to true in production with HTTPS
+      sameSite: 'Lax',
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
 };
@@ -52,9 +63,27 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
+// Replace existing passport configuration with:
+passport.serializeUser((user, done) => {
+    done(null, { 
+      id: user.id, 
+      type: user instanceof Technician ? 'technician' : 'user' 
+    });
+  });
+  
+  passport.deserializeUser(async (obj, done) => {
+    try {
+      let user;
+      if (obj.type === 'technician') {
+        user = await Technician.findById(obj.id);
+      } else {
+        user = await User.findById(obj.id);
+      }
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
+  });
 
 
 app.use((req, res, next) => {

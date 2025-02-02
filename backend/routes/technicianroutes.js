@@ -81,11 +81,17 @@ router.put('/update-equipment/:id', async (req, res) => {
 });
 router.get('/check-auth', (req, res) => {
     if (req.isAuthenticated() && req.user instanceof Technician) {
-        res.status(200).json({ authenticated: true });
+      res.status(200).json({ 
+        authenticated: true,
+        userType: 'technician'
+      });
     } else {
-        res.status(401).json({ authenticated: false });
+      res.status(401).json({ 
+        authenticated: false,
+        message: 'Not authenticated as technician'
+      });
     }
-});
+  });
 
 module.exports = router;
 

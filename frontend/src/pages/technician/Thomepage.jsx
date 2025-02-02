@@ -16,16 +16,21 @@ const Thomepage = () => {
   // Check authentication status on component mount
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/technician/check-auth', {
-          credentials: 'include'
-        });
-        if (response.ok) {
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      }
+      // Update your useEffect checkAuth to:
+const checkAuth = async () => {
+  try {
+    const response = await fetch('/api/technician/check-auth', {
+      credentials: 'include'
+    });
+    
+    const data = await response.json();
+    setIsAuthenticated(response.ok && data.authenticated);
+    
+  } catch (error) {
+    console.error('Auth check failed:', error);
+    setIsAuthenticated(false);
+  }
+};
     };
     checkAuth();
   }, []);
