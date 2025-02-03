@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserNavbar from "../../components/navbar/UserNavbar.jsx";
 
-function SignupPage() {
+function Usignup() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -26,7 +25,7 @@ function SignupPage() {
 
       const data = await response.json();
       if (response.ok) {
-        navigate("/");
+        navigate("/user");
       } else {
         alert(`Error: ${data.message}`);
       }
@@ -38,7 +37,6 @@ function SignupPage() {
 
   return (
     <div className="h-screen bg-gradient-to-r from-pink-300 to-pink-200 flex flex-col">
-      <UserNavbar />
       <div className="flex-grow flex justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-5">Create an Account</h1>
@@ -91,4 +89,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default Usignup;

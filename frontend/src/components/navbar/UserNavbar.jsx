@@ -48,12 +48,13 @@ const UserNavbar = ({ setFormData }) => {
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         {isAuthenticated && (
-                            <button
+                            <Link
+                                to="#"
                                 onClick={handleLogout}
                                 className="text-sm/6 font-semibold text-gray-900 p-2"
                             >
                                 Sign Out
-                            </button>
+                            </Link>
                         )}
                     </div>
                 </nav>

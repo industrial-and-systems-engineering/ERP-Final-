@@ -52,9 +52,7 @@ const Ucompleted = () => {
 
   return (
     <div className="p-6 max-w-xl mx-auto space-y-4">
-      <UserNavbar />
-      <h1 className="text-2xl font-bold text-center">Completed Products</h1>
-
+      <h1 className="text-2xl font-bold text-center my-10">Completed Products</h1>
       {/* Show product buttons if data exists */}
       {calibratedForms.length > 0 ? (
         <div className="space-y-2">

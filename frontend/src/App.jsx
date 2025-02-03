@@ -9,6 +9,7 @@ import Tupdate from './pages/technician/Tupdate.jsx'
 import Tpending from './pages/technician/Tpending.jsx'
 import Upending from './pages/user/Upending.jsx'
 import Tcompleted from './pages/technician/Tcompleted.jsx'
+import UserPage from './pages/user/UserPage.jsx'
 import Usignup from './pages/user/Usignup.jsx'
 
 const App = () => {
@@ -16,14 +17,13 @@ const App = () => {
     <div>
       <Routes>
         <Route path="*" element={<Loginpage />} />
-        <Route path="/user" >
+        <Route path="/user" element={<UserPage />}>
           <Route path="" element={<Uhomepage />} />
           <Route path="completed" element={<Ucompleted />} />
           <Route path="pending" element={<Upending />} />
           <Route path="create" element={<Ucreate />} />
-          <Route path="signup" element={<Usignup />} />
-
         </Route>
+        <Route path="/user/signup" element={<Usignup />} />
         <Route path="/technician" element={<Thomepage />}>
           <Route path="completed" element={<Tcompleted />} />
           <Route path="pending" element={<Tpending />} />

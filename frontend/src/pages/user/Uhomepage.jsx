@@ -1,124 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import UserNavbar from "../../components/navbar/UserNavbar.jsx";
-import { useAuthStore } from "../../utils/isloggedin.js";
-
+import React from "react";
 const Uhomepage = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const { isAuthenticated, checkAuth } = useAuthStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      console.log("Response:", data);
-
-      if (data.redirectUrl) {
-        checkAuth();
-        navigate(data.redirectUrl);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
 
   return (
     <div>
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-      >
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-          className="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-        />
-      </div>
-      {/* Pass setFormData as a prop */}
-      <UserNavbar setFormData={setFormData} />
       <h1 className="text-2xl font-bold text-center my-15">User Homepage</h1>
-      {isAuthenticated ? (
-        <Outlet />
-      ) : (
-        <div className="flex justify-center items-center my-10">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-1/4 text-center">
-            <h1 className="text-white text-xl mb-4">User Login</h1>
-            <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
-              <label className="text-teal-200 text-left">
-                Username:
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Enter your username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 mt-1 border rounded-md focus:ring focus:ring-blue-400"
-                />
-              </label>
-              <label className="text-teal-200 text-left">
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 mt-1 border rounded-md focus:ring focus:ring-blue-400"
-                />
-              </label>
-              <label className="text-teal-200 text-left">
-                Password:
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 mt-1 border rounded-md focus:ring focus:ring-blue-400"
-                />
-              </label>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
-              >
-                Login
-              </button>
-            </form>
-            <div className="mt-4">
-              <p className="text-white">Don't have an account?</p>
-              <Link to="/user/signup" className="text-blue-300 hover:text-blue-500">
-                Sign Up
-              </Link>
-            </div>
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Profile</h2>
+            <p>View and edit your profile information.</p>
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Go to Profile</button>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Settings</h2>
+            <p>Manage your account settings and preferences.</p>
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Go to Settings</button>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Notifications</h2>
+            <p>Check your recent notifications.</p>
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">View Notifications</button>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Messages</h2>
+            <p>Read your messages and communicate with others.</p>
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Go to Messages</button>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Support</h2>
+            <p>Get help and support for your account.</p>
+            <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Contact Support</button>
           </div>
         </div>
-      )}
-
+      </div>
     </div>
 
   );

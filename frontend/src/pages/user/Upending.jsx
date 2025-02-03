@@ -55,7 +55,6 @@ const Upending = () => {
 
   return (
     <div className="container mx-auto mt-8 p-10">
-      <UserNavbar />
       <h1 className="text-2xl font-bold mb-4 text-center">Pending Products</h1>
 
       {calibratedForms.length > 0 ? (
