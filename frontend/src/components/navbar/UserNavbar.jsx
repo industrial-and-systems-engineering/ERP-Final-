@@ -14,7 +14,7 @@ const UserNavbar = ({ setFormData }) => {
         try {
             await fetch("/api/user/logout", { method: "GET" });
             checkAuth(false); // Update login state
-            
+
             // Reset form data on logout
             setFormData({ username: "", email: "", password: "" });
 
@@ -25,39 +25,39 @@ const UserNavbar = ({ setFormData }) => {
     };
 
     return (
-        <div className='bg-gray-800 p-4 flex justify-center space-x-4 shadow-lg'>
-            <Link
-                to="/user"
-                className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out'
-            >
-                Home
-            </Link>
-            <Link
-                to="/user/completed"
-                className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out'
-            >
-                Completed Products
-            </Link>
-            <Link
-                to="/user/pending"
-                className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out'
-            >
-                Pending Form
-            </Link>
-            <Link
-                to="/user/create"
-                className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out'
-            >
-                Create Form
-            </Link>
-            {isAuthenticated && (
-                <button
-                    onClick={handleLogout}
-                    className='px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out'
-                >
-                    Sign Out
-                </button>
-            )}
+        <div className="bg-white">
+            <header className="absolute inset-x-0 top-0 z-50">
+                <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
+                    <div className="flex lg:flex-1">
+                        <a href="#" className="-m-1.5 p-1.5">
+                            <span className="sr-only">Your Company</span>
+                            <img
+                                alt=""
+                                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                                className="h-8 w-auto"
+                            />
+                        </a>
+                    </div>
+
+                    <div className="hidden lg:flex lg:gap-x-12">
+                        <Link to="/user" className="text-sm/6 font-semibold text-gray-900">Home</Link>
+                        <Link to="/user/completed" className="text-sm/6 font-semibold text-gray-900">Completed Products</Link>
+                        <Link to="/user/pending" className="text-sm/6 font-semibold text-gray-900">Pending Form</Link>
+                        <Link to="/user/create" className="text-sm/6 font-semibold text-gray-900">Create Form</Link>
+                    </div>
+
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        {isAuthenticated && (
+                            <button
+                                onClick={handleLogout}
+                                className="text-sm/6 font-semibold text-gray-900 p-2"
+                            >
+                                Sign Out
+                            </button>
+                        )}
+                    </div>
+                </nav>
+            </header>
         </div>
     );
 };

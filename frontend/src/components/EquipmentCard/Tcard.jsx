@@ -22,6 +22,7 @@ const Tcard = ({ equipment }) => {
 
     return (
         <div className="equipment-card">
+            <p>Date: {equipment.createdAt.substr(0, 10)}</p>
             <p><strong>Job No:</strong> {equipment.jobNo}</p>
             <p><strong>Instrument Description:</strong> {equipment.instrumentDescription}</p>
             <p><strong>Serial No:</strong> {equipment.serialNo}</p>
@@ -31,26 +32,28 @@ const Tcard = ({ equipment }) => {
             {!equipment.isCalibrated ? (
                 <div>
                     {isEditing ? (
-                        <div>
+                        <div className="mt-2 flex justify-between items-center">
                             <input
                                 type="text"
                                 value={result.calibrationDetails}
                                 onChange={(e) => setResult({ ...result, calibrationDetails: e.target.value })}
-                                className="mt-2 p-2 border rounded"
+                                className="p-2 border rounded flex-grow mr-2"
                                 placeholder="Enter calibration details"
                             />
-                            <button
-                                onClick={handleSaveClick}
-                                className="mt-2 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
-                            >
-                                Save
-                            </button>
-                            <button
-                                onClick={() => setIsEditing(false)}
-                                className="mt-2 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
-                            >
-                                Cancel
-                            </button>
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={handleSaveClick}
+                                    className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                    className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <button

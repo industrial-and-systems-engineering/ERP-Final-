@@ -12,6 +12,8 @@ const ProductSchema = new Schema({
   accuracy: { type: String, required: true },
   isCalibrated: { type: Boolean, default: false },
   calibrationDetails: { type: String },
+}, {
+  timestamps: true
 });
 
 const Product = mongoose.model("Product", ProductSchema);
